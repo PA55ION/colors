@@ -1,23 +1,16 @@
 import React from 'react';
-import logo from './logo.svg';
+import BoxModals from './BoxModals';
+import SortColor from './SortColor';
+import colors from './colors';
 import './App.css';
 
 function App() {
+  const gradient = colors.map(color => <BoxModals key={color.id} color={color}/>)
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+      <SortColor />
+      <header className="App-header"> 
+        {gradient}
       </header>
     </div>
   );
