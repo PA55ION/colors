@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Icon, InlineIcon } from "@iconify/react";
+import { InlineIcon } from "@iconify/react";
 import heart from "@iconify/icons-mdi/heart";
 import code from "@iconify/icons-mdi/code";
 // import accountCheck from "@iconify/icons-mdi/account-check";
@@ -24,8 +24,14 @@ const InnerBox = styled.div(props => ({
    
 }));
     
-const WrapperIcon = styled.div`
+const Button = styled.button`
     margin: 15px;
+    position: relative;
+    left: -70px;
+    border: none;
+    background: none;
+    color: white;
+    font-size: 16px;
 
     &:hover {
         color: red;
@@ -33,12 +39,15 @@ const WrapperIcon = styled.div`
     }
 
 `
-
-const HeartButton = styled.button`
+const CodeButton = styled.button`
     border: none;
     background: none;
-    position: absolute;
-    
+    position: relative;
+    cursor: pointer;
+    color: white;
+    font-size: 20px;
+    left: 50px;
+
 
 `
 const Header = styled.p`
@@ -46,22 +55,40 @@ const Header = styled.p`
 `
 
 
-
 class BoxModals extends React.Component {
+    constructor(props) {
+        super(props)
+        this.state = { 
+            counter: 0,
+        }
+    }
+
+    handleClick = () => {
+        this.setState({
+            counter:  this.state.counter + 1
+        })
+    }
     render() {
         return(
            <OuterBox>
                <Header>{this.props.color.name}</Header>
                <InnerBox background={this.props.color.background}></InnerBox>
-                     <WrapperIcon >
-                    <InlineIcon icon={heart} />
-                    </WrapperIcon>
-
-                    <HeartButton>
-                        <InlineIcon 
-                        icon={code} /> {this.props.color.code}
-                    </HeartButton>
-                    
+                     <Button onClick={this.handleClick}>
+                    <InlineIcon
+                        icon={heart}
+                     />  {this.state.counter}
+                    </Button>
+                    <CodeButton>
+                        {
+                            document.queryCommandSupported('copy') &&
+                            <div>
+                                 <InlineIcon 
+                                icon={code}
+                                onClick={() => {navigator.clipboard.writeText(this.props.color.code)}}
+                             /> 
+                            </div>
+                        }
+                    </CodeButton>
            </OuterBox>
         )
     };
